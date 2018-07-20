@@ -3,7 +3,6 @@
 import os
 import json
 import logging
-
 from flask import Flask
 from gee_sampler.config import SETTINGS
 from gee_sampler.routes.api import error
@@ -16,6 +15,19 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     datefmt='%Y%m%d-%H:%M%p',
 )
+
+
+# Initializing GEE
+gee = SETTINGS.get('gee')
+gee_credentials = ServiceAccountCredentials.from_p12_keyfile(
+    gee.get('service_account'),
+    gee.get('privatekey_file'),
+    scopes=ee.oauth.SCOPE
+)
+
+ee.Initialize(gee_credentials)
+ee.data.setDeadline(60000)
+
 
 # Flask App
 app = Flask(__name__)
