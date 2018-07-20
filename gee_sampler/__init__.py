@@ -7,7 +7,7 @@ import logging
 from flask import Flask
 from gee_sampler.config import SETTINGS
 from gee_sampler.routes.api import error
-from gee_sampler.routes.api.v1 import psone_endpoints, pstwo_endpoints
+from gee_sampler.routes.api.v1 import sampler_endpoints, pstwo_endpoints
 from gee_sampler.utils.files import load_config_json
 import CTRegisterMicroserviceFlask
 
@@ -21,7 +21,7 @@ logging.basicConfig(
 app = Flask(__name__)
 
 # Routing
-app.register_blueprint(psone_endpoints, url_prefix='/api/v1/psone')
+app.register_blueprint(sampler_endpoints, url_prefix='/api/v1/sampler')
 app.register_blueprint(pstwo_endpoints, url_prefix='/api/v1/pstwo')
 
 # CT

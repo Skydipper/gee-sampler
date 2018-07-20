@@ -10,10 +10,10 @@ from gee_sampler.serializers import serialize_greeting
 import json
 import CTRegisterMicroserviceFlask
 
-psone_endpoints = Blueprint('psone_endpoints', __name__)
+sampler_endpoints = Blueprint('sampler_endpoints', __name__)
 
 
-@psone_endpoints.route('/hello', strict_slashes=False, methods=['GET'])
+@sampler_endpoints.route('/hello', strict_slashes=False, methods=['GET'])
 @set_something
 @validate_greeting
 def say_hello(something):
