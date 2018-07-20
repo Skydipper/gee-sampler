@@ -1,1 +1,1 @@
-from ps.tests.test_basic import BasicTest
+from gee_sampler.tests.test_basic import BasicTest

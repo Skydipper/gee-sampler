@@ -5,10 +5,10 @@ import json
 import logging
 
 from flask import Flask
-from ps.config import SETTINGS
-from ps.routes.api import error
-from ps.routes.api.v1 import psone_endpoints, pstwo_endpoints
-from ps.utils.files import load_config_json
+from gee_sampler.config import SETTINGS
+from gee_sampler.routes.api import error
+from gee_sampler.routes.api.v1 import psone_endpoints, pstwo_endpoints
+from gee_sampler.utils.files import load_config_json
 import CTRegisterMicroserviceFlask
 
 logging.basicConfig(
@@ -29,7 +29,7 @@ info = load_config_json('register')
 swagger = load_config_json('swagger')
 CTRegisterMicroserviceFlask.register(
     app=app,
-    name='ps',
+    name='gee_sampler',
     info=info,
     swagger=swagger,
     mode=CTRegisterMicroserviceFlask.AUTOREGISTER_MODE if os.getenv('CT_REGISTER_MODE') and os.getenv('CT_REGISTER_MODE') == 'auto' else CTRegisterMicroserviceFlask.NORMAL_MODE,

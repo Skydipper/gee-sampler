@@ -1,7 +1,7 @@
 """CONFIG MODULE"""
 
 import os
-from ps.config import base, staging, prod
+from gee_sampler.config import base, staging, prod
 
 SETTINGS = base.SETTINGS
 

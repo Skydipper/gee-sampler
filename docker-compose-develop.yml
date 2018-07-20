@@ -15,5 +15,5 @@ develop:
     API_VERSION: v1
   command: develop
   volumes:
-    - ./ps:/opt/ps/ps
+    - ./gee_sampler:/opt/gee_sampler/gee_sampler
   restart: always

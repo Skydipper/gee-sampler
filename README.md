@@ -20,7 +20,7 @@ cd python-skeleton
 2. Run the ms.sh shell script in development mode.
 
 ```ssh
-./ps.sh develop
+./gee_sampler.sh develop
 ```
 
 If this is the first time you run it, it may take a few minutes.

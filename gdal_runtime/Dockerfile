@@ -1,8 +1,8 @@
 FROM python:3.6
 MAINTAINER Sergio Gordillo sergio.gordillo@vizzuality.com
 
-ENV NAME ps
-ENV USER ps
+ENV NAME gee_sampler
+ENV USER gee_sampler
 
 RUN apt-get update && apt-get install -yq \
     gcc \
