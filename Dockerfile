@@ -1,5 +1,5 @@
-FROM python:3.6-alpine
-MAINTAINER Sergio Gordillo sergio.gordillo@vizzuality.com
+FROM python:3.7-alpine
+MAINTAINER Enrique Cornejo enrique.cornejo@vizzuality.com
 
 ENV NAME gee_sampler
 ENV USER gee_sampler
@@ -31,7 +31,7 @@ COPY ./microservice /opt/$NAME/microservice
 RUN chown $USER:$USER /opt/$NAME
 
 # Tell Docker we are going to use this ports
-EXPOSE 5700
+EXPOSE 5650
 USER $USER
 
 # Launch script

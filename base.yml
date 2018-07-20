@@ -1,7 +1,7 @@
 base:
   build: .
   ports:
-    - "5700:5700"
+    - "5650:5650"
   environment:
-    PORT: 5700
+    PORT: 5650
   container_name: gee-sampler

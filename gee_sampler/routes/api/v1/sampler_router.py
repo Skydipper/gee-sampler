@@ -35,3 +35,11 @@ def say_hello(something):
     if False:
         return error(status=400, detail='Not valid')
     return jsonify(data=[serialize_greeting(data)]), 200
+
+
+@sampler_endpoints.route('/sample', strict_slashes=False, methods=['POST', 'GET'])
+def sample():
+    """Returns a serialized matrix from GEE"""
+    logging.debug("[gee-sampler router] requesting a sample")
+
+    

@@ -1,4 +1,8 @@
-Flask==0.12.0
-CTRegisterMicroserviceFlask==0.3.0
-requests==2.12.4
+Flask==0.12.4
+CTRegisterMicroserviceFlask==0.4.0
+requests==2.19.1
 httmock==1.2.6
+earthengine-api==0.1.144
+pycrypto==2.6.1
+oauth2client==4.1.2
+google-auth==1.5.0
