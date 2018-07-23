@@ -11,7 +11,15 @@ def validate_point_sample(func):
     def wrapper(*args, **kwargs):
 
         validation_schema = {
-            'id': {'type': 'string'}
+            'id': {'type': 'string'},
+            'type': {
+                'type': 'string',
+                'allowed': [
+                    'Image',
+                    'ImageCollection',
+                    'FeatureCollection'
+                ]
+            }
         }
 
         validator = Validator(validation_schema, allow_unknown = True)

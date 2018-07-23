@@ -44,5 +44,8 @@ def point_sample(**kwargs):
     """
     sampling_parameters = kwargs['post_body']
     logging.debug(f"sampling parameters are: {sampling_parameters}")
-    sampling_result = GEEService.gee_point_sample(sampling_parameters)
+    try:
+        sampling_result = GEEService.gee_point_sample(sampling_parameters)
+    except Exception as e:
+        return jsonify(error = str(e)), 404
     return jsonify(data = sampling_result), 200
