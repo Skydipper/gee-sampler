@@ -3,3 +3,5 @@ CTRegisterMicroserviceFlask==0.4.0
 requests==2.12.4
 httmock==1.2.6
 earthengine-api==0.1.144
+oauth2client==4.1.2
+cerberus==1.2

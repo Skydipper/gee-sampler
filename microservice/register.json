@@ -2,12 +2,20 @@
   "name": "#(service.name)",
   "endpoints": [
     {
-      "path": "/v1/sampler/hello",
+      "path": "/v1/sampler/sample",
       "method": "GET",
       "binary": true,
       "redirect": {
         "method": "GET",
-        "path": "/api/v1/sampler/hello"
+        "path": "/api/v1/sampler/sample"
+      }
+    },{
+      "path": "/v1/sampler/sample",
+      "method": "POST",
+      "binary": true,
+      "redirect": {
+        "method": "POST",
+        "path": "/api/v1/sampler/sample"
       }
     }
   ]

@@ -9,6 +9,9 @@ from gee_sampler.routes.api import error
 from gee_sampler.routes.api.v1 import sampler_endpoints, pstwo_endpoints
 from gee_sampler.utils.files import load_config_json
 import CTRegisterMicroserviceFlask
+import ee
+from oauth2client.service_account import ServiceAccountCredentials
+
 
 logging.basicConfig(
     level=SETTINGS.get('logging', {}).get('level'),
@@ -16,9 +19,9 @@ logging.basicConfig(
     datefmt='%Y%m%d-%H:%M%p',
 )
 
-
-# Initializing GEE
+# # Initializing GEE
 gee = SETTINGS.get('gee')
+logging.debug(f'gee: ${gee}')
 gee_credentials = ServiceAccountCredentials.from_p12_keyfile(
     gee.get('service_account'),
     gee.get('privatekey_file'),
@@ -27,7 +30,6 @@ gee_credentials = ServiceAccountCredentials.from_p12_keyfile(
 
 ee.Initialize(gee_credentials)
 ee.data.setDeadline(60000)
-
 
 # Flask App
 app = Flask(__name__)
