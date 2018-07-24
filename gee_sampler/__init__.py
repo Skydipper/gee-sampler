@@ -21,7 +21,6 @@ logging.basicConfig(
 
 # # Initializing GEE
 gee = SETTINGS.get('gee')
-logging.debug(f'gee: ${gee}')
 gee_credentials = ServiceAccountCredentials.from_p12_keyfile(
     gee.get('service_account'),
     gee.get('privatekey_file'),

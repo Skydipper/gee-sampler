@@ -47,5 +47,5 @@ def point_sample(**kwargs):
     try:
         sampling_result = GEEService.gee_point_sample(sampling_parameters)
     except Exception as e:
-        return jsonify(error = str(e)), 404
+        return error(status=404, detail=str(e))
     return jsonify(data = sampling_result), 200
