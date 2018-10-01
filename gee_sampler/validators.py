@@ -21,7 +21,8 @@ def validate_point_sample(func):
                     'Image',
                     'ImageCollection',
                     'FeatureCollection'
-                ]
+                ],
+                'required': True
             },
             'date': {
                 'type': 'dict',
@@ -29,10 +30,30 @@ def validate_point_sample(func):
                     'min': {'type': ['date', 'string']},
                     'max': {'type': ['date', 'string']}
                 }
+            },
+            'reducer': {
+                'type': 'string',
+                'allowed': [
+                    'mean',
+                    'minMax'
+                ],
+                'required': True
+            },
+            'scale': {
+                'type': 'number',
+                'required': False,
+                'default': 30
+            },
+            'scale': {
+                'type': 'number',
+                'required': False,
+                'default': 5000
             }
         }
         validator = Validator(validation_schema, allow_unknown = True)
         if not validator.validate(kwargs['post_body']):
             return error(status=400, detail=validator.errors)
+        kwargs['sanitized_post_body'] = validator.normalized(kwargs['post_body'])
+        logging.debug(f"sanitized_post_body: {kwargs['sanitized_post_body']}")
         return func(*args, **kwargs)
     return wrapper

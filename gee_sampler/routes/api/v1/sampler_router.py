@@ -42,7 +42,7 @@ def point_sample(**kwargs):
     """
     Samples a point on GEE
     """
-    sampling_parameters = kwargs['post_body']
+    sampling_parameters = kwargs['sanitized_post_body']
     logging.debug(f"sampling parameters are: {sampling_parameters}")
     try:
         sampling_result = GEEService.gee_point_sample(sampling_parameters)

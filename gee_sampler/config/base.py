@@ -11,7 +11,7 @@ SETTINGS = {
         'port': os.getenv('PORT')
     },
     'gee': {
-        'service_account': '',
+        'service_account': 'api-highways@gpsdd-198018.iam.gserviceaccount.com',
         'privatekey_file': BASE_DIR + '/privatekey.pem'
     }
 }
