@@ -40,16 +40,14 @@ app.register_blueprint(sampler_endpoints, url_prefix='/api/v1/sampler')
 info = load_config_json('register')
 swagger = load_config_json('swagger')
 
-logging.debug("Registering microservice")
 CTRegisterMicroserviceFlask.register(
     app=app,
-    name='gee_sampler',
+    name='sampler',
     info=info,
     swagger=swagger,
-    mode = CTRegisterMicroserviceFlask.AUTOREGISTER_MODE if os.getenv('CT_REGISTER_MODE') and os.getenv('CT_REGISTER_MODE') == 'auto' else CTRegisterMicroserviceFlask.NORMAL_MODE,
+    mode=CTRegisterMicroserviceFlask.AUTOREGISTER_MODE if os.getenv('CT_REGISTER_MODE') and os.getenv('CT_REGISTER_MODE') == 'auto' else CTRegisterMicroserviceFlask.NORMAL_MODE,
     ct_url=os.getenv('CT_URL'),
-    url=os.getenv('LOCAL_URL'),
-    api_version='v1'
+    url=os.getenv('LOCAL_URL')
 )
 
 @app.errorhandler(403)
