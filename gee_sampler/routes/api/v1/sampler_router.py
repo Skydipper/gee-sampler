@@ -43,9 +43,11 @@ def point_sample(**kwargs):
     Samples a point on GEE
     """
     sampling_parameters = kwargs['sanitized_post_body']
-    logging.debug(f"sampling parameters are: {sampling_parameters}")
+    logging.info('[SAMPLER ROUTER]: ' + str(sampling_parameters))
     try:
-        sampling_result = GEEService.gee_point_sample(sampling_parameters)
+        #sampling_result = GEEService.gee_point_sample(sampling_parameters)
+        sampling_result = sampling_parameters
     except Exception as e:
         return error(status=404, detail=str(e))
+    
     return jsonify(data = sampling_result), 200

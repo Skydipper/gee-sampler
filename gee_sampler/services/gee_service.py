@@ -4,6 +4,10 @@ import ee
 from gee_sampler.helpers.date_helper import DateHelper
 
 class GEEService(object):
+    """
+    params accepted:
+        
+    """
     @staticmethod
     def gee_point_sample(params):
         logging.debug(f"params: {params}")
