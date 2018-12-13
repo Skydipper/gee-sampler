@@ -21,11 +21,10 @@ def point_sample(**kwargs):
     """
     Samples a point on GEE
     """
-    sampling_parameters = kwargs['params']
-    logging.info('[SAMPLER ROUTER]: ' + str(sampling_parameters))
+    #logging.info('[SAMPLER ROUTER]: ' + str(sampling_parameters))
     try:
         #sampling_result = GEEService.gee_point_sample(sampling_parameters)
-        sampling_result = sampling_parameters
+        sampling_result = kwargs
     except Exception as e:
         return error(status=404, detail=str(e))
     

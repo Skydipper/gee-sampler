@@ -5,7 +5,7 @@ import json
 
 from gee_sampler.routes.api import error
 from gee_sampler.errors import DatasetNotFound, ProviderNotFound
-from gee_sampler.services.dataset_service import GetDatasetService
+from gee_sampler.services.dataset_service import GetDatasetService, GetFieldsService
 
 def remove_keys(keys, dictionary):
     for key in keys:
@@ -14,6 +14,19 @@ def remove_keys(keys, dictionary):
         except KeyError:
             pass
     return dictionary
+
+def gen_dict_extract(key, var):
+    if hasattr(var,'items'):
+        for k, v in var.items():
+            if k == key:
+                yield v
+            if isinstance(v, dict):
+                for result in gen_dict_extract(key, v):
+                    yield result
+            elif isinstance(v, list):
+                for d in v:
+                    for result in gen_dict_extract(key, d):
+                        yield result
 
 def parameters_to_kwargs(func):
     """Sets any queryparams in the kwargs"""
@@ -28,8 +41,7 @@ def parameters_to_kwargs(func):
             kwargs['params'] = sanitized_post_body
         
         except DatasetNotFound:
-            logging.debug(f"[MIDDLEWARE - sanitized_post_body]: {sanitized_post_body}")
-            return error(status=404, detail='params not found')
+            return error(status=404, detail='body params not found')
         
         return func(*args, **kwargs)
     return wrapper
@@ -39,13 +51,15 @@ def get_dataset(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            info = GetDatasetService.get('2da73658-31b6-44a9-9c05-ca951e50dbb0')
+            listOfDatasets = list(set(gen_dict_extract('dataset', kwargs['params'])))
+            
+            info = [{"dataset": dataset, "data": GetDatasetService.get(dataset), "fields":GetFieldsService.get(dataset)} for dataset in listOfDatasets]
 
             logging.debug("[MIDDLEWARE - get_dataset]: " + str(info))
-            kwargs["test"] = info
+            kwargs["datasetsInfo"] = info
         
         except DatasetNotFound: 
-            return error(status=404, detail='Geostore not found')
+            return error(status=404, detail='dataset not found')
         except ProviderNotFound:
             return error(status=404, detail='Provider not found')
         
