@@ -10,49 +10,73 @@ from datetime import date, datetime
 def validate_point_sample(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        to_dict = lambda v: v.lower() in ('true', '1')
         validation_schema = {
-            'geostore': {
-                'type': 'string',
-                'required': False
+            'point': {
+                'type': 'list',
+                'required': True,
+                'items': [{'type': 'float', 'min':-180, 'max':180}, 
+                          {'type': 'float', 'min':-90, 'max':90}]
             },
-            'trainIn': {
+            'type':{
                 'type': 'string',
+                'required': True,
                 'allowed': [
-                    'Sentinel2',
-                    'Landsat7'
-                ],
-                'required': True
+                    'segmentation'
+                ]
             },
-            'trainOut': {
-                'type': 'string',
-                'allowed': [
-                    'CroplandDataLayers'
-                ],
-                'required': True
-            },
-            'date': {
-                'type': 'dict',
-                'schema': {
-                    'min': {'type': ['date', 'string']},
-                    'max': {'type': ['date', 'string']}
+            'sources': {
+                'type': 'list',
+                'required': True,
+                 'schema': {'type': 'dict', 
+                            'schema': {'dataset': {'type': 'string', 
+                                                    'required': True},
+                                       'bands': {'type': 'list', 
+                                                 'required': True,
+                                                 'schema': {'type': 'dict',
+                                                            'schema': {'name': {'type': 'string', 'required': True},
+                                                                        'origin': {'type': 'string', 'required': True},
+                                                                        'transform': {'type': 'string', 'required': False},
+                                                                        'transformArg': {'type': 'dict', 
+                                                                                         'required': False,
+                                                                                         'schema': { 'min': {'type': 'float'},
+                                                                                                    'max': {'type': 'float'}
+                                                                                                    }
+                                                                                         }
+                                                                     }
+                                                            }
+                                                 }
+                                   }
+                           }
                 },
-                'required': True
+            'target': {
+                'type': 'dict',
+                'required': True,
+                'schema': {'dataset': {'type': 'string', 
+                                                    'required': True},
+                            'bands': {'type': 'list', 
+                                      'required': True,
+                                      'schema': {'type': 'dict',
+                                                 'schema': {'name': {'type': 'string', 'required': True},
+                                                            'origin': {'type': 'string', 'required': True},
+                                                            'transform': {'type': 'string', 'required': False},
+                                                            'transformArg': {'type': 'dict', 
+                                                                             'required': False,
+                                                                             'schema': { 'min': {'type': 'float'},
+                                                                                         'max': {'type': 'float'}
+                                                                                         }
+                                                                            }
+                                                            }
+                                                    }
+                                        }
+                         }
             },
             'buffer': {
                 'type': 'number',
                 'required': False,
-                'default': 30,
+                'default': 300,
                 'coerce': int,
                 'min': 1,
                 'max': 50000
-            },
-            'scale': {
-                'type': 'number',
-                'required': False,
-                'default': 30,
-                'coerce': int,
-                'min': 0
             }
         }
         logging.info(f"[VALIDATOR - sanitized_post_body]: {kwargs}")
@@ -61,64 +85,5 @@ def validate_point_sample(func):
             return error(status=400, detail=validator.errors)
         kwargs['sanitized_params'] = validator.normalized(kwargs['params'])
         logging.debug(f"sanitized_post_body: {kwargs['sanitized_params']}")
-        return func(*args, **kwargs)
-    return wrapper
-
-def validate_geojson(func):
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        validation_schema = {
-            'keyschema': {'type': 'string', 'oneof':['geostore', 'geojson']},
-            'geostore': {
-                'type': 'string',
-                'required': False
-            },
-            'geojson': {
-                'type': 'string',
-                'required': False
-            },
-            'trainIn': {
-                'type': 'string',
-                'allowed': [
-                    'Sentinel2',
-                    'Landsat7'
-                ],
-                'required': True
-            },
-            'trainOut': {
-                'type': 'string',
-                'allowed': [
-                    'CroplandDataLayers'
-                ],
-                'required': True
-            },
-            'date': {
-                'type': 'dict',
-                'schema': {
-                    'min': {'type': ['date', 'string']},
-                    'max': {'type': ['date', 'string']}
-                },
-                'required': True
-            },
-            'buffer': {
-                'type': 'number',
-                'required': False,
-                'default': 30,
-                'min': 1,
-                'max': 50000
-            },
-            'scale': {
-                'type': 'number',
-                'required': False,
-                'default': 30,
-                'min': 0
-            }
-        }
-        validator = Validator(validation_schema, allow_unknown = True)
-        if not validator.validate(kwargs['post_body']):
-            return error(status=400, detail=validator.errors)
-        kwargs['sanitized_post_body'] = validator.normalized(kwargs['post_body'])
-        logging.debug(f"sanitized_post_body: {kwargs['sanitized_post_body']}")
         return func(*args, **kwargs)
     return wrapper

@@ -12,5 +12,8 @@ class Error(Exception):
             'message': self.message
         }
 
-class GeostoreNotFound(Error):
+class DatasetNotFound(Error):
+    pass
+
+class ProviderNotFound(Error):
     pass
